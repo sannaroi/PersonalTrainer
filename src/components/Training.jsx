@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import format from "date-fns/format";
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
@@ -29,9 +30,9 @@ function Training() {
     { field: 'customerName', sortable: true, filter: true },
     {
       cellRenderer: params => 
-        <Button size="small" onClick={() => deleteTraining(params.data.links[0].href)}>
-          Delete
-        </Button>,
+        <IconButton size="small" onClick={() => deleteTraining(params.data.links[0].href)}>
+          <DeleteIcon fontSize="small" />
+        </IconButton>,
       width: 120
     }
   ]);

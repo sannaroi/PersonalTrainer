@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
 
@@ -28,9 +29,9 @@ function Customerlist() {
     },
     {
       cellRenderer: params => 
-        <Button size="small" onClick={() => deleteCustomer(params.data.links[0].href)}>
-          Delete
-        </Button>,
+        <IconButton size="small" onClick={() => deleteCustomer(params.data.links[0].href)}>
+          <DeleteIcon fontSize="small" />
+        </IconButton>,
       width: 100
     }
   ]);
