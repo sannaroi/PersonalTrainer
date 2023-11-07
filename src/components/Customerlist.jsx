@@ -4,12 +4,15 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
+import AddTraining from "./AddTraining";
+
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
 function Customerlist() {
   const [customers, setCustomers] = useState([]);
+
 
   useEffect(() => {
     fetchCustomers();
@@ -24,6 +27,10 @@ function Customerlist() {
     { field: 'email', sortable: true, filter: true },
     { field: 'phone', sortable: true, filter: true, width: 140},
     {
+      cellRenderer: params => <AddTraining fetchTrainings={fetchTrainings} data={params.data} />,
+      width: 180
+    },
+    {
       cellRenderer: params => <EditCustomer fetchCustomers={fetchCustomers} data={params.data} />,
       width: 100
     },
@@ -33,7 +40,7 @@ function Customerlist() {
           <DeleteIcon fontSize="small" />
         </IconButton>,
       width: 100
-    }
+    },
   ]);
 
   const fetchCustomers = () => {
@@ -48,17 +55,29 @@ function Customerlist() {
       .catch(err => console.error(err));
   }
 
-    const deleteCustomer = (url) => {
-    if (window.confirm("Are you sure?")) {
-      fetch(url, { method: 'DELETE' })
+  const fetchTrainings = () => {
+    fetch('https://traineeapp.azurewebsites.net/api/training')
       .then(response => {
         if (response.ok)
-          fetchCustomers();
+          return response.json();
         else
-          throw new Error("Error in DELETE: " + response.statusText);
+          throw new Error("Error in fetch: " + response.statusText);
       })
-      .catch(err => console.error(err))
-      }
+      .then(data => setCustomers(data.content))
+      .catch(err => console.error(err));
+  }
+
+  const deleteCustomer = (url) => {
+    if (window.confirm("Are you sure?")) {
+      fetch(url, { method: 'DELETE' })
+        .then(response => {
+          if (response.ok)
+            fetchCustomers();
+          else
+            throw new Error("Error in DELETE: " + response.statusText);
+        })
+        .catch(err => console.error(err))
+    }
   }
 
   return (
