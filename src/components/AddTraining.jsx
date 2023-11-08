@@ -6,12 +6,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
 
 
 export default function AddTraining({ fetchTrainings }) {
   const [training, setTraining] = useState({
     activity: '',
-    date: null, 
+    date: null,
     duration: '',
   });
   const [open, setOpen] = useState(false);
@@ -27,23 +30,23 @@ export default function AddTraining({ fetchTrainings }) {
   const saveCustomer = () => {
     fetch('https://traineeapp.azurewebsites.net/api/training', {
       method: 'POST',
-      headers: { 'Content-type':'application/json' },
-      body: JSON.stringify(training) 
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify(training)
     })
-    .then(response => {
-      if (!response.ok)
-        throw new Error("Error when adding training: "  + response.statusText);
+      .then(response => {
+        if (!response.ok)
+          throw new Error("Error when adding training: " + response.statusText);
 
-      fetchTrainings();
-    })
-    .catch(err => console.error(err));
+        fetchTrainings();
+      })
+      .catch(err => console.error(err));
 
     handleClose();
   }
 
   return (
     <div>
-      <Button variant="text" onClick={handleClickOpen}>
+      <Button  onClick={handleClickOpen}>
         Add Training
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -55,23 +58,21 @@ export default function AddTraining({ fetchTrainings }) {
             fullWidth
             variant="standard"
             value={training.activity}
-            onChange={event => setTraining({...training, activity: event.target.value})}
+            onChange={event => setTraining({ ...training, activity: event.target.value })}
           />
           <TextField
-              margin="dense"
-              DatePicker label="Date" 
-              fullWidth
-              value={training.date}
-              onChange={event => setTraining({...training, date: event.target.value})}
-            />
-          <TextField  
             margin="dense"
             label="Duration"
             fullWidth
             variant="standard"
             value={training.duration}
-            onChange={event => setTraining({...training, duration: event.target.value})}
+            onChange={event => setTraining({ ...training, duration: event.target.value })}
           />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              value={training.date}
+            />
+          </LocalizationProvider>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

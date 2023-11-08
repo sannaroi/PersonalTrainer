@@ -6,7 +6,6 @@ import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
 import AddTraining from "./AddTraining";
 
-
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
@@ -18,14 +17,14 @@ function Customerlist() {
     fetchCustomers();
   }, []);
 
-  const [columnDefs] = useState ([
+  const [columnDefs] = useState([
     { field: 'firstname', sortable: true, filter: true, width: 150 },
     { field: 'lastname', sortable: true, filter: true, width: 150 },
     { field: 'streetaddress', sortable: true, filter: true },
     { field: 'postcode', sortable: true, filter: true, width: 120 },
     { field: 'city', sortable: true, filter: true, width: 130 },
     { field: 'email', sortable: true, filter: true },
-    { field: 'phone', sortable: true, filter: true, width: 140},
+    { field: 'phone', sortable: true, filter: true, width: 140 },
     {
       cellRenderer: params => <AddTraining fetchTrainings={fetchTrainings} data={params.data} />,
       width: 180
@@ -35,7 +34,7 @@ function Customerlist() {
       width: 100
     },
     {
-      cellRenderer: params => 
+      cellRenderer: params =>
         <IconButton size="small" onClick={() => deleteCustomer(params.data.links[0].href)}>
           <DeleteIcon fontSize="small" />
         </IconButton>,
@@ -82,7 +81,7 @@ function Customerlist() {
 
   return (
     <>
-      <AddCustomer fetchCustomers={fetchCustomers} />
+
       <div className="ag-theme-material" style={{ height: "500px", width: "100%" }}>
         <h1>Customers</h1>
         <AgGridReact
@@ -91,6 +90,7 @@ function Customerlist() {
           pagination={true}
           paginationAutoPageSize={true}
         />
+        <AddCustomer fetchCustomers={fetchCustomers} />
       </div>
     </>
   );

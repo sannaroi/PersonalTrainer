@@ -43,16 +43,16 @@ export default function EditCustomer({ fetchCustomers, data }) {
   const saveCustomer = () => {
     fetch(data.links[0].href, {
       method: 'PUT',
-      headers: { 'Content-type':'application/json' },
-      body: JSON.stringify(customer) 
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify(customer)
     })
-    .then(response => {
-      if (!response.ok)
-        throw new Error("Error when adding customer: "  + response.statusText);
+      .then(response => {
+        if (!response.ok)
+          throw new Error("Error when adding customer: " + response.statusText);
 
-      fetchCustomers();
-    })
-    .catch(err => console.error(err));
+        fetchCustomers();
+      })
+      .catch(err => console.error(err));
 
     handleClose();
   }
@@ -65,61 +65,61 @@ export default function EditCustomer({ fetchCustomers, data }) {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Customer</DialogTitle>
         <DialogContent>
-        <TextField
+          <TextField
             margin="dense"
             label="Firstname"
             fullWidth
             variant="standard"
             value={customer.firstname}
-            onChange={event => setCustomer({...customer, firstname: event.target.value})}
+            onChange={event => setCustomer({ ...customer, firstname: event.target.value })}
           />
-        <TextField
+          <TextField
             margin="dense"
             label="Lastname"
             fullWidth
             variant="standard"
             value={customer.lastname}
-            onChange={event => setCustomer({...customer, lastname: event.target.value})}
+            onChange={event => setCustomer({ ...customer, lastname: event.target.value })}
           />
-        <TextField
+          <TextField
             margin="dense"
             label="Street address"
             fullWidth
             variant="standard"
             value={customer.streetaddress}
-            onChange={event => setCustomer({...customer, streetaddress: event.target.value})}
+            onChange={event => setCustomer({ ...customer, streetaddress: event.target.value })}
           />
-        <TextField
+          <TextField
             margin="dense"
             label="Postcode"
             fullWidth
             variant="standard"
             value={customer.postcode}
-            onChange={event => setCustomer({...customer, postcode: event.target.value})}
+            onChange={event => setCustomer({ ...customer, postcode: event.target.value })}
           />
-        <TextField
+          <TextField
             margin="dense"
             label="City"
             fullWidth
             variant="standard"
             value={customer.city}
-            onChange={event => setCustomer({...customer, city: event.target.value})}
+            onChange={event => setCustomer({ ...customer, city: event.target.value })}
           />
-         <TextField
+          <TextField
             margin="dense"
             label="Email"
             fullWidth
             variant="standard"
             value={customer.email}
-            onChange={event => setCustomer({...customer, email: event.target.value})}
+            onChange={event => setCustomer({ ...customer, email: event.target.value })}
           />
-        <TextField
+          <TextField
             margin="dense"
             label="Phone"
             fullWidth
             variant="standard"
             value={customer.phone}
-            onChange={event => setCustomer({...customer, phone: event.target.value})}
+            onChange={event => setCustomer({ ...customer, phone: event.target.value })}
           />
         </DialogContent>
         <DialogActions>

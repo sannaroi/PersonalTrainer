@@ -35,7 +35,7 @@ function App() {
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         <List>
           <ListItem component={Link} to="/customerlist" onClick={toggleDrawer(false)}>
-            <ListItemText primary="Customer List" />
+            <ListItemText primary="Customers" />
           </ListItem>
           <ListItem component={Link} to="/training" onClick={toggleDrawer(false)}>
             <ListItemText primary="Training" />

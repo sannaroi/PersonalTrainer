@@ -29,7 +29,7 @@ function Training() {
     { field: 'duration', sortable: true, filter: true },
     { field: 'customerName', sortable: true, filter: true },
     {
-      cellRenderer: params => 
+      cellRenderer: params =>
         <IconButton size="small" onClick={() => deleteTraining(params.data.links[0].href)}>
           <DeleteIcon fontSize="small" />
         </IconButton>,
@@ -51,7 +51,7 @@ function Training() {
 
 
   const fetchCustomerData = () => {
-    fetch('https://traineeapp.azurewebsites.net/api/customers', {method: "GET"})
+    fetch('https://traineeapp.azurewebsites.net/api/customers', { method: "GET" })
       .then(response => {
         if (response.ok)
           return response.json();
@@ -76,14 +76,14 @@ function Training() {
   const deleteTraining = (url) => {
     if (window.confirm("Are you sure?")) {
       fetch(url, { method: 'DELETE' })
-      .then(response => {
-        if (response.ok)
-          fetchTrainings();
-        else
-          throw new Error("Error in DELETE: " + response.statusText);
-      })
-      .catch(err => console.error(err))
-      }
+        .then(response => {
+          if (response.ok)
+            fetchTrainings();
+          else
+            throw new Error("Error in DELETE: " + response.statusText);
+        })
+        .catch(err => console.error(err))
+    }
   }
 
   return (
