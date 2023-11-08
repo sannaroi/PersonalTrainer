@@ -5,12 +5,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 
 export default function AddTraining({ fetchTrainings }) {
   const [training, setTraining] = useState({
     activity: '',
-    date: null,
+    date: null, 
     duration: '',
   });
   const [open, setOpen] = useState(false);
@@ -31,7 +32,7 @@ export default function AddTraining({ fetchTrainings }) {
     })
     .then(response => {
       if (!response.ok)
-        throw new Error("Error when adding car: "  + response.statusText);
+        throw new Error("Error when adding training: "  + response.statusText);
 
       fetchTrainings();
     })
@@ -57,15 +58,13 @@ export default function AddTraining({ fetchTrainings }) {
             onChange={event => setTraining({...training, activity: event.target.value})}
           />
           <TextField
-            margin="dense"
-            label="Date"
-            fullWidth
-            variant="standard"
-            value={training.date}
-            onChange={event => setTraining({...training, date: event.target.value})}
-          />
-      
-          <TextField
+              margin="dense"
+              DatePicker label="Date" 
+              fullWidth
+              value={training.date}
+              onChange={event => setTraining({...training, date: event.target.value})}
+            />
+          <TextField  
             margin="dense"
             label="Duration"
             fullWidth
