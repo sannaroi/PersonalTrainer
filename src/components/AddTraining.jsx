@@ -10,6 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 
+// Muut osat koodista...
 
 export default function AddTraining({ fetchTrainings }) {
   const [training, setTraining] = useState({
@@ -25,6 +26,10 @@ export default function AddTraining({ fetchTrainings }) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleDateChange = (date) => {
+    setTraining({ ...training, date: date });
   };
 
   const saveCustomer = () => {
@@ -46,7 +51,7 @@ export default function AddTraining({ fetchTrainings }) {
 
   return (
     <div>
-      <Button  onClick={handleClickOpen}>
+      <Button onClick={handleClickOpen}>
         Add Training
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -71,6 +76,7 @@ export default function AddTraining({ fetchTrainings }) {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               value={training.date}
+              onChange={handleDateChange}
             />
           </LocalizationProvider>
         </DialogContent>

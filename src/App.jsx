@@ -40,6 +40,9 @@ function App() {
           <ListItem component={Link} to="/training" onClick={toggleDrawer(false)}>
             <ListItemText primary="Training" />
           </ListItem>
+          <ListItem component={Link} to="/calendar" onClick={toggleDrawer(false)}>
+            <ListItemText primary="Calendar" />
+          </ListItem>
         </List>
       </Drawer>
       <Outlet />

@@ -7,6 +7,7 @@ import Customerlist from './components/Customerlist';
 import Training from './components/Training';
 
 
+
 const router = createBrowserRouter([ 
   {
     path: "/",
