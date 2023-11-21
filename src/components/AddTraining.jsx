@@ -10,8 +10,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 
-// Muut osat koodista...
-
 export default function AddTraining({ fetchTrainings }) {
   const [training, setTraining] = useState({
     activity: '',
@@ -33,7 +31,7 @@ export default function AddTraining({ fetchTrainings }) {
   };
 
   const saveCustomer = () => {
-    fetch('https://traineeapp.azurewebsites.net/api/training', {
+    fetch('https://traineeapp.azurewebsites.net/api/trainings', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(training)

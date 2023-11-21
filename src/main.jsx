@@ -1,11 +1,11 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App.jsx'
 import Customerlist from './components/Customerlist';
 import Training from './components/Training';
-
+import MyCalendar from './components/Calendar';
 
 
 const router = createBrowserRouter([ 
@@ -25,15 +25,15 @@ const router = createBrowserRouter([
         path: "/training",
         element: <Training />,
       },
+      {
+        path: "/calendar",
+        element: <MyCalendar />,
+      },
     ]
     }
   ]);
   
   
-
-
-
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />
