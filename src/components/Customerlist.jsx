@@ -55,7 +55,7 @@ function Customerlist() {
   }
 
   const fetchTrainings = () => {
-    fetch('https://traineeapp.azurewebsites.net/api/training')
+    fetch('https://traineeapp.azurewebsites.net/api/trainings')
       .then(response => {
         if (response.ok)
           return response.json();
