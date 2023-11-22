@@ -26,7 +26,7 @@ function Customerlist() {
     { field: 'email', sortable: true, filter: true },
     { field: 'phone', sortable: true, filter: true, width: 140 },
     {
-      cellRenderer: params => <AddTraining fetchTrainings={fetchTrainings} data={params.data} />,
+      cellRenderer: params => <AddTraining fetchTrainings={fetchTrainings} data={params.data.id}  />,
       width: 180
     },
     {
@@ -55,7 +55,7 @@ function Customerlist() {
   }
 
   const fetchTrainings = () => {
-    fetch('https://traineeapp.azurewebsites.net/api/trainings')
+    fetch('https://traineeapp.azurewebsites.net/api/training')
       .then(response => {
         if (response.ok)
           return response.json();
