@@ -45,10 +45,14 @@ function Training() {
         else
           throw new Error("Error in fetch: " + response.statusText);
       })
-      .then(data => setTrainings(data.content))
+      .then(data => {
+        setTrainings(data.content.map(training => ({
+          ...training,
+          customerName: customers[training.customerId],
+        })));
+      })
       .catch(err => console.error(err));
-  }
-
+  };
 
   const fetchCustomerData = () => {
     fetch('https://traineeapp.azurewebsites.net/api/customers', { method: "GET" })
@@ -66,7 +70,8 @@ function Training() {
         setCustomers(customerData);
       })
       .catch(err => console.error(err));
-  }
+  };
+
 
   const trainingData = trainings.map(training => ({
     ...training,

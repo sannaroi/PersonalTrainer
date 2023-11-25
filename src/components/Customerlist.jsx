@@ -26,7 +26,7 @@ function Customerlist() {
     { field: 'email', sortable: true, filter: true },
     { field: 'phone', sortable: true, filter: true, width: 140 },
     {
-      cellRenderer: params => <AddTraining fetchTrainings={fetchTrainings} data={params.data.id}  />,
+      cellRenderer: params => <AddTraining fetchTrainings={fetchTrainings} customerId={params.data.id}  />,
       width: 180
     },
     {
