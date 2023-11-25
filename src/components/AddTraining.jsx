@@ -10,11 +10,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 
-export default function AddTraining({ fetchTrainings }) {
+export default function AddTraining({ fetchTrainings, customerId }) {
   const [training, setTraining] = useState({
     activity: '',
     date: null,
     duration: '',
+    customerId: customerId
   });
   const [open, setOpen] = useState(false);
 
