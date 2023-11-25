@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import App from './App.jsx'
 import Customerlist from './components/Customerlist';
