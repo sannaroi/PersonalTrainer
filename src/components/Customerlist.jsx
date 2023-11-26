@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
 import AddTraining from "./AddTraining";
+import CSV from "./CSV";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
@@ -26,7 +27,7 @@ function Customerlist() {
     { field: 'email', sortable: true, filter: true },
     { field: 'phone', sortable: true, filter: true, width: 140 },
     {
-      cellRenderer: params => <AddTraining fetchTrainings={fetchTrainings} customerId={params.data.id}  />,
+      cellRenderer: params => <AddTraining fetchTrainings={fetchTrainings} data={params.data.customerId}  />,
       width: 180
     },
     {
@@ -78,12 +79,14 @@ function Customerlist() {
         .catch(err => console.error(err))
     }
   }
+  
 
   return (
     <>
 
       <div className="ag-theme-material" style={{ height: "500px", width: "100%" }}>
         <h1>Customers</h1>
+        <CSV customers={customers} />
         <AgGridReact
           rowData={customers}
           columnDefs={columnDefs}
