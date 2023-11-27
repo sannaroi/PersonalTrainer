@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
-import format from "date-fns/format";
+import dayjs from "date-fns/format";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -9,36 +9,29 @@ import "ag-grid-community/styles/ag-theme-material.css";
 
 function Training() {
   const [trainings, setTrainings] = useState([]);
-  const [customers, setCustomers] = useState({});
-
-  useEffect(() => {
-    fetchTrainings();
-  }, []);
-
-  useEffect(() => {
-    fetchCustomerData();
-  }, []);
-
-  const formatDate = (dateString) => {
-    return format(new Date(dateString), 'dd.MM.yyyy HH:mm');
-  }
 
   const [columnDefs] = useState([
-    { field: 'activity', sortable: true, filter: true },
-    { field: 'date', sortable: true, filter: true, valueFormatter: params => formatDate(params.value) },
-    { field: 'duration', sortable: true, filter: true },
-    { field: 'customerName', sortable: true, filter: true },
-    {
-      cellRenderer: params =>
-        <IconButton size="small" onClick={() => deleteTraining(params.data.links[0].href)}>
-          <DeleteIcon fontSize="small" />
-        </IconButton>,
-      width: 120
-    }
-  ]);
+  { field: 'activity', sortable: true, filter: true },
+  { field: 'date', sortable: true, filter: true, valueFormatter: (params) => dayjs(params.value).format("dd.MM.yyyy HH:mm") },
+  { field: 'duration', sortable: true, filter: true },
+  { 
+    headerName: "Customer",
+    valueGetter: (params) => params.data.customer.firstname + " " + params.data.customer.lastname 
+  },
+  {
+    headerName: "",
+    field: "id",
+    cellRenderer: (params) => (
+      <IconButton size="small" onClick={() => deleteTraining(params.data.links[0].href)}>
+        <DeleteIcon fontSize="small" />
+      </IconButton>
+    ),
+    width: 120
+  }
+]);
 
-  const fetchTrainings = () => {
-    fetch('https://traineeapp.azurewebsites.net/api/trainings')
+  const getTrainings = () => {
+    fetch('https://traineeapp.azurewebsites.net/api/gettrainings')
       .then(response => {
         if (response.ok)
           return response.json();
@@ -46,44 +39,27 @@ function Training() {
           throw new Error("Error in fetch: " + response.statusText);
       })
       .then(data => {
-        setTrainings(data.content.map(training => ({
-          ...training,
-          customerName: customers[training.customerId],
-        })));
-      })
-      .catch(err => console.error(err));
-  };
-
-  const fetchCustomerData = () => {
-    fetch('https://traineeapp.azurewebsites.net/api/customers', { method: "GET" })
-      .then(response => {
-        if (response.ok)
-          return response.json();
-        else
-          throw new Error("Error in fetch: " + response.statusText);
-      })
-      .then(data => {
-        const customerData = {};
-        data.content.forEach(customer => {
-          customerData[customer.id] = `${customer.firstname} ${customer.lastname}`;
-        });
-        setCustomers(customerData);
+        setTrainings(data.content);
       })
       .catch(err => console.error(err));
   };
 
 
-  const trainingData = trainings.map(training => ({
-    ...training,
-    customerName: customers[training.customerId],
-  }));
+  useEffect(() => {
+    getTrainings();
 
-  const deleteTraining = (url) => {
+  }, []);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const deleteTraining = (id) => {
     if (window.confirm("Are you sure?")) {
-      fetch(url, { method: 'DELETE' })
+      fetch(id, { method: 'DELETE' })
         .then(response => {
           if (response.ok)
-            fetchTrainings();
+            getTrainings();
           else
             throw new Error("Error in DELETE: " + response.statusText);
         })
@@ -91,11 +67,12 @@ function Training() {
     }
   }
 
+
   return (
     <div className="ag-theme-material" style={{ height: "500px", width: "100%" }}>
       <h1>Training</h1>
       <AgGridReact
-        rowData={trainingData}
+        rowData={trainings}
         columnDefs={columnDefs}
         pagination={true}
         paginationAutoPageSize={true}
