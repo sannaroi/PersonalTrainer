@@ -1,65 +1,47 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = momentLocalizer(moment);
 
-const TrainingCalendar = () => {
-  const [events, setEvents] = useState([]);
+function TrainingCalendar() {
+  const [trainings, setTrainings] = useState([]);
 
   useEffect(() => {
-    fetchTrainingData();
+    fetchTrainings();
   }, []);
 
-  const fetchTrainingData = () => {
-    fetch('https://traineeapp.azurewebsites.net/api/customers')
+  const fetchTrainings = () => {
+    fetch('https://traineeapp.azurewebsites.net/gettrainings')
       .then(response => {
-        if (!response.ok) {
-          throw new Error('Error fetching customer data');
-        }
-        return response.json();
+        if (response.ok)
+          return response.json();
+        else
+          throw new Error("Error in fetch: " + response.statusText);
       })
-      .then(customerData => {
-        const customerMap = {};
-        customerData.content.forEach(customer => {
-          customerMap[customer.id] = `${customer.firstname} ${customer.lastname}`;
-        });
-        
-        fetch('https://traineeapp.azurewebsites.net/api/trainings')
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Error fetching training data');
-            }
-            return response.json();
-          })
-          .then(trainingData => {
-            const events = trainingData.content.map(training => ({
-              title: `${customerMap[training.customerId]}: ${training.activity}`,
-              start: new Date(training.date),
-              end: new Date(training.date), 
-            }));
-            setEvents(events);
-          })
-          .catch(error => {
-            console.error('Error fetching training data:', error);
-          });
+      .then(data => {
+        setTrainings(data);
       })
-      .catch(error => {
-        console.error('Error fetching customer data:', error);
-      });
+      .catch(err => console.error(err));
   };
+
+  const events = trainings.map(training => ({
+    title: `${training.activity} - ${training.customer.firstname} ${training.customer.lastname}`, 
+    start: new Date(training.date),
+    end: moment(training.date).add(training.duration, 'minutes').toDate(),
+  }));
 
   return (
     <div style={{ height: 500 }}>
       <Calendar
         localizer={localizer}
         events={events}
-        startAccessor="start"
-        endAccessor="end"
+        selectable
+        style={{ padding: 10 }}
       />
     </div>
   );
-};
+}
 
 export default TrainingCalendar;
