@@ -8,14 +8,15 @@ import Button from '@mui/material/Button';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import dayjs from 'dayjs';
 
 
-export default function AddTraining({ fetchTrainings, customerId }) {
+export default function AddTraining({ fetchTrainings, data }) {
   const [training, setTraining] = useState({
     activity: '',
     date: null,
     duration: '',
-    customerId: customerId
+    customer: data.links[0].href
   });
   const [open, setOpen] = useState(false);
 
@@ -28,7 +29,7 @@ export default function AddTraining({ fetchTrainings, customerId }) {
   };
 
   const handleDateChange = (date) => {
-    setTraining({ ...training, date: date });
+    setTraining({ ...training, date: dayjs(date).format() });
   };
 
   const saveCustomer = () => {

@@ -27,7 +27,7 @@ function Customerlist() {
     { field: 'email', sortable: true, filter: true },
     { field: 'phone', sortable: true, filter: true, width: 140 },
     {
-      cellRenderer: params => <AddTraining fetchTrainings={fetchTrainings} data={params.data.customerId}  />,
+      cellRenderer: params => <AddTraining fetchTrainings={fetchTrainings} data={params.data}  />,
       width: 180
     },
     {
@@ -67,9 +67,9 @@ function Customerlist() {
       .catch(err => console.error(err));
   }
 
-  const deleteCustomer = (url) => {
+  const deleteCustomer = (id) => {
     if (window.confirm("Are you sure?")) {
-      fetch(url, { method: 'DELETE' })
+      fetch(id, { method: 'DELETE' })
         .then(response => {
           if (response.ok)
             fetchCustomers();
