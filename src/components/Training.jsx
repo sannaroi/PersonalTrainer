@@ -16,16 +16,16 @@ function Training() {
       field: 'date', 
       sortable: true, 
       filter: true, 
-      valueFormatter: (params) => dayjs(params.value).format( "DD.MM.YYYY hh:MM")
+      valueFormatter: (params) => dayjs(params.value).format("DD.MM.YYYY hh:MM")
     },
     { field: 'duration', sortable: true, filter: true },
     { 
-      headerName: "Customer",
+      headerName: 'Customer',
       valueGetter: (params) => params.data.customer.firstname + " " + params.data.customer.lastname 
     },
     {
       headerName: "",
-      field: "id",
+      field: 'id',
       cellRenderer: (params) => (
         <IconButton size="small" onClick={() => deleteTraining(params.value)}>
           <DeleteIcon fontSize="small" />
@@ -57,15 +57,12 @@ function Training() {
 
 const deleteTraining = (id) => {
   if (window.confirm("Are you sure?")) {
-    fetch(`https://traineeapp.azurewebsites.net/trainings/${id}`, { method: 'DELETE' })
+    fetch(`https://traineeapp.azurewebsites.net/api/trainings/${id}`, { method: 'DELETE' })
       .then(response => {
         if (response.ok)
-          return response.json();
+          getTrainings();
         else
           throw new Error("Error in DELETE: " + response.statusText);
-      })
-      .then(() => {
-        getTrainings();
       })
       .catch(err => console.error(err));
   }
