@@ -19,10 +19,19 @@ function Training() {
       valueFormatter: (params) => dayjs(params.value).format("DD.MM.YYYY hh:MM")
     },
     { field: 'duration', sortable: true, filter: true },
-    { 
-      headerName: 'Customer',
-      valueGetter: (params) => params.data.customer.firstname + " " + params.data.customer.lastname 
+    {
+      headerName: "Customer",
+      valueGetter: params =>
+        { 
+          if (params.data.customer !== null) 
+            return params.data.customer.firstname + " " + params.data.customer.lastname
+          else
+            return "Customer not found" 
+        } ,
+      sortable: true,
+      filter: true,
     },
+
     {
       headerName: "",
       field: 'id',
