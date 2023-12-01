@@ -27,7 +27,7 @@ function TrainingCalendar() {
   };
 
   const events = trainings.map(training => ({
-    title: `${training.activity} - ${training.customer.firstname} ${training.customer.lastname}`, 
+    title: `${training.activity} / ${training.customer.firstname} ${training.customer.lastname}`, 
     start: new Date(training.date),
     end: moment(training.date).add(training.duration, 'minutes').toDate(),
   }));
